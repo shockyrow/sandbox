@@ -38,7 +38,12 @@ class Act
             return new self($function->getName(), $function);
         }
 
-        return self::create($name, fn () => $raw_act);
+        return self::create(
+            $name,
+            function () use ($raw_act) {
+                return $raw_act;
+            }
+        );
     }
 
     public function getName(): string
