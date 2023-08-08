@@ -1,0 +1,25 @@
+{
+    "name": "shockyrow/sandbox",
+    "description": "This is the sandbox project.",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Shockyrow\\Sandbox\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ibrokhim Shokirov",
+            "email": "ibrokhim.shokirov@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.3",
+        "squizlabs/php_codesniffer": "^3.7",
+        "friendsofphp/php-cs-fixer": "^3.22"
+    }
+}
