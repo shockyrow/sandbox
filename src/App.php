@@ -26,7 +26,7 @@ class App
         $engine = $this->resolveEngine();
         $act_list = $this->resolveActList($raw_acts);
 
-        echo 'Hello, World!';
+        $engine->run($act_list);
     }
 
     /**
