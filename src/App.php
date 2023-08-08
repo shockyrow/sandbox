@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Shockyrow\Sandbox;
 
+use ReflectionException;
+use Shockyrow\Sandbox\Entities\Act;
 use Shockyrow\Sandbox\Entities\ActList;
 
 class App
@@ -44,6 +46,16 @@ class App
 
     private function resolveActList(array $raw_acts): ActList
     {
-        return new ActList();
+        $act_list = new ActList();
+
+        foreach ($raw_acts as $key => $raw_act) {
+            try {
+                $act_list->add(Act::create((string)$key, $raw_act));
+            } catch (ReflectionException $exception) {
+                continue;
+            }
+        }
+
+        return $act_list;
     }
 }
