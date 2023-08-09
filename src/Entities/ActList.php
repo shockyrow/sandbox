@@ -6,7 +6,9 @@ namespace Shockyrow\Sandbox\Entities;
 
 final class ActList
 {
-    /** @var Act[] */
+    /**
+     * @var Act[]
+     */
     private array $acts;
 
     public function __construct()
@@ -22,7 +24,7 @@ final class ActList
         return $this->acts;
     }
 
-    public function get(string $name): ?Act
+    public function getOneByName(string $name): ?Act
     {
         return $this->acts[$name] ?? null;
     }

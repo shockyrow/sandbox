@@ -7,17 +7,24 @@ namespace Shockyrow\Sandbox;
 use ReflectionException;
 use Shockyrow\Sandbox\Entities\Act;
 use Shockyrow\Sandbox\Entities\ActList;
+use Shockyrow\Sandbox\Entities\CallList;
+use Shockyrow\Sandbox\Services\CallRequestHandler;
 
 class App
 {
     private EngineInterface $default_engine;
-    /** @var EngineInterface[] */
+    private CallRequestHandler $call_request_handler;
+    /**
+     * @var EngineInterface[]
+     */
     private array $engines;
 
     public function __construct(
-        EngineInterface $default_engine
+        EngineInterface $default_engine,
+        CallRequestHandler $call_request_handler
     ) {
         $this->default_engine = $default_engine;
+        $this->call_request_handler = $call_request_handler;
         $this->engines = [];
     }
 
@@ -25,8 +32,15 @@ class App
     {
         $engine = $this->resolveEngine();
         $act_list = $this->resolveActList($raw_acts);
+        $call_list = new CallList();
 
-        $engine->run($act_list);
+        $call_request = $engine->run($act_list);
+
+        if ($call_request !== null) {
+            $call_list->add(
+                $this->call_request_handler->handle($call_request)
+            );
+        }
     }
 
     /**

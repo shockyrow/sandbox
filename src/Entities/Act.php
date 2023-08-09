@@ -8,7 +8,7 @@ use Closure;
 use ReflectionException;
 use ReflectionFunction;
 
-class Act
+final class Act
 {
     private string $name;
     private ReflectionFunction $function;
