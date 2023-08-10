@@ -7,14 +7,20 @@ namespace Shockyrow\Sandbox\Entities;
 final class CallRequest
 {
     private Act $act;
-    private ArgumentList $argument_list;
+    /**
+     * @var string[]
+     */
+    private array $arguments;
 
+    /**
+     * @param string[] $arguments
+     */
     public function __construct(
         Act $act,
-        ArgumentList $argument_list
+        array $arguments
     ) {
         $this->act = $act;
-        $this->argument_list = $argument_list;
+        $this->arguments = $arguments;
     }
 
     public function getAct(): Act
@@ -22,8 +28,11 @@ final class CallRequest
         return $this->act;
     }
 
-    public function getArgumentList(): ArgumentList
+    /**
+     * @return string[]
+     */
+    public function getArguments(): array
     {
-        return $this->argument_list;
+        return $this->arguments;
     }
 }

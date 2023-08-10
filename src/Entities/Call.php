@@ -9,24 +9,24 @@ use Exception;
 
 final class Call
 {
-    private CallRequest $call_request;
+    private CallRequest $request;
     private $value;
     private ?string $output;
     private ?Exception $exception;
     private ?Error $error;
 
-    public function __construct(CallRequest $call_request)
+    public function __construct(CallRequest $request)
     {
-        $this->call_request = $call_request;
+        $this->request = $request;
         $this->value = null;
         $this->output = null;
         $this->exception = null;
         $this->error = null;
     }
 
-    public function getCallRequest(): CallRequest
+    public function getRequest(): CallRequest
     {
-        return $this->call_request;
+        return $this->request;
     }
 
     /**

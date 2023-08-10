@@ -34,13 +34,14 @@ class App
         $act_list = $this->resolveActList($raw_acts);
         $call_list = new CallList();
 
-        $call_request = $engine->run($act_list);
+        $call_request = $engine->getCallRequest($act_list);
 
         if ($call_request !== null) {
-            $call_list->add(
-                $this->call_request_handler->handle($call_request)
-            );
+            $call = $this->call_request_handler->handle($call_request);
+            $call_list->add($call);
         }
+
+        $engine->run($act_list, $call_list);
     }
 
     /**
