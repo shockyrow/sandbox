@@ -1,7 +1,7 @@
 {
     "name": "shockyrow/sandbox",
-    "description": "This is the sandbox project.",
-    "type": "project",
+    "description": "This is the sandbox project library.",
+    "type": "library",
     "license": "MIT",
     "autoload": {
         "psr-4": {
