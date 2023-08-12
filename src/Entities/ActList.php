@@ -29,6 +29,9 @@ final class ActList
         return $this->acts[$name] ?? null;
     }
 
+    /**
+     * @return $this
+     */
     public function add(Act $act): self
     {
         $this->acts[$act->getName()] = $act;

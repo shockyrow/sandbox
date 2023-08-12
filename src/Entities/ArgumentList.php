@@ -29,6 +29,9 @@ final class ArgumentList
         return $this->arguments[$name] ?? null;
     }
 
+    /**
+     * @return $this
+     */
     public function add(Argument $argument): self
     {
         $this->arguments[$argument->getName()] = $argument;

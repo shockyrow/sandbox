@@ -11,17 +11,26 @@ final class Call
 {
     private CallRequest $request;
     private int $called_at;
+    /**
+     * @param string[] $tags
+     */
+    private array $tags;
     private $value;
     private ?string $output;
     private ?Exception $exception;
     private ?Error $error;
 
+    /**
+     * @param string[] $tags
+     */
     public function __construct(
         CallRequest $request,
-        int $called_at
+        int $called_at,
+        array $tags = []
     ) {
         $this->request = $request;
         $this->called_at = $called_at;
+        $this->tags = $tags;
         $this->value = null;
         $this->output = null;
         $this->exception = null;
@@ -36,6 +45,30 @@ final class Call
     public function getCalledAt(): int
     {
         return $this->called_at;
+    }
+
+    public function hasTag(string $tag): bool
+    {
+        return in_array($tag, $this->tags, true);
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getTags(): array
+    {
+        return $this->tags;
+    }
+
+    /**
+     * @return $this
+     */
+    public function addTag(string $name): self
+    {
+        $this->tags[] = $name;
+        $this->tags = array_unique($this->tags);
+
+        return $this;
     }
 
     /**
@@ -58,14 +91,17 @@ final class Call
         return $this;
     }
 
+    public function hasOutput(): bool
+    {
+        return $this->output !== null;
+    }
+
     public function getOutput(): ?string
     {
         return $this->output;
     }
 
     /**
-     * @param ?string $output
-     *
      * @return $this
      */
     public function setOutput(?string $output): self
@@ -73,6 +109,11 @@ final class Call
         $this->output = $output;
 
         return $this;
+    }
+
+    public function hasException(): bool
+    {
+        return $this->exception !== null;
     }
 
     public function getException(): ?Exception
@@ -88,6 +129,11 @@ final class Call
         $this->exception = $exception;
 
         return $this;
+    }
+
+    public function hasError(): bool
+    {
+        return $this->error !== null;
     }
 
     public function getError(): ?Error
