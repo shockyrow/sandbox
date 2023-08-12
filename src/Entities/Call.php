@@ -33,6 +33,11 @@ final class Call
         return $this->request;
     }
 
+    public function getCalledAt(): int
+    {
+        return $this->called_at;
+    }
+
     /**
      * @return mixed
      */
