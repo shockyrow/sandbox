@@ -86,6 +86,7 @@ class App
         if ($call_request !== null) {
             $call = $this->call_request_handler->handle($call_request);
             $call_list->add($call);
+            $call_list_storage->save($call_list);
         }
 
         $engine->run($act_list, $call_list);
