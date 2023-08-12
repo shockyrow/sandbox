@@ -10,14 +10,18 @@ use Exception;
 final class Call
 {
     private CallRequest $request;
+    private int $called_at;
     private $value;
     private ?string $output;
     private ?Exception $exception;
     private ?Error $error;
 
-    public function __construct(CallRequest $request)
-    {
+    public function __construct(
+        CallRequest $request,
+        int $called_at
+    ) {
         $this->request = $request;
+        $this->called_at = $called_at;
         $this->value = null;
         $this->output = null;
         $this->exception = null;
