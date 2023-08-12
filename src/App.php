@@ -7,41 +7,47 @@ namespace Shockyrow\Sandbox;
 use ReflectionException;
 use Shockyrow\Sandbox\Entities\Act;
 use Shockyrow\Sandbox\Entities\ActList;
+use Shockyrow\Sandbox\Entities\Call;
 use Shockyrow\Sandbox\Entities\CallList;
+use Shockyrow\Sandbox\Services\CallListResolvers\CallListStorageInterface;
 use Shockyrow\Sandbox\Services\CallRequestHandler;
 
 class App
 {
     private EngineInterface $default_engine;
+    private CallListStorageInterface $default_call_list_storage;
     private CallRequestHandler $call_request_handler;
+    private string $server_api;
     /**
      * @var EngineInterface[]
      */
     private array $engines;
+    /**
+     * @var CallListStorageInterface[]
+     */
+    private array $call_list_storages;
 
     public function __construct(
         EngineInterface $default_engine,
+        CallListStorageInterface $default_call_list_storage,
         CallRequestHandler $call_request_handler
     ) {
         $this->default_engine = $default_engine;
+        $this->default_call_list_storage = $default_call_list_storage;
         $this->call_request_handler = $call_request_handler;
+        $this->server_api = PHP_SAPI;
         $this->engines = [];
+        $this->call_list_storages = [];
     }
 
-    public function run(array $raw_acts): void
+    /**
+     * @return $this
+     */
+    public function forceServerApi(string $server_api): self
     {
-        $engine = $this->resolveEngine();
-        $act_list = $this->resolveActList($raw_acts);
-        $call_list = new CallList();
+        $this->server_api = $server_api;
 
-        $call_request = $engine->getCallRequest($act_list);
-
-        if ($call_request !== null) {
-            $call = $this->call_request_handler->handle($call_request);
-            $call_list->add($call);
-        }
-
-        $engine->run($act_list, $call_list);
+        return $this;
     }
 
     /**
@@ -54,12 +60,48 @@ class App
         return $this;
     }
 
-    private function resolveEngine(): EngineInterface
+    /**
+     * @return $this
+     */
+    public function setCallListStorage(string $interface, CallListStorageInterface $call_list_storage): self
     {
-        return $this->engines[PHP_SAPI] ?? $this->default_engine;
+        $this->call_list_storages[$interface] = $call_list_storage;
+
+        return $this;
     }
 
-    private function resolveActList(array $raw_acts): ActList
+    public function run(array $raw_acts): void
+    {
+        $engine = $this->resolveEngine();
+        $call_list_storage = $this->resolveCallListStorage();
+        $act_list = $this->buildActList($raw_acts);
+        $call_list = $call_list_storage->load();
+
+        foreach ($call_list->getAll() as $call) {
+            $call->removeTag(Call::TAG_NEW);
+        }
+
+        $call_request = $engine->getCallRequest($act_list);
+
+        if ($call_request !== null) {
+            $call = $this->call_request_handler->handle($call_request);
+            $call_list->add($call);
+        }
+
+        $engine->run($act_list, $call_list);
+    }
+
+    private function resolveEngine(): EngineInterface
+    {
+        return $this->engines[$this->server_api] ?? $this->default_engine;
+    }
+
+    private function resolveCallListStorage(): CallListStorageInterface
+    {
+        return $this->call_list_storages[$this->server_api] ?? $this->default_call_list_storage;
+    }
+
+    private function buildActList(array $raw_acts): ActList
     {
         $act_list = new ActList();
 

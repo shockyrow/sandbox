@@ -9,6 +9,9 @@ use Exception;
 
 final class Call
 {
+    public const TAG_NEW = 'new';
+    public const TAG_FAVORITE = 'favorite';
+
     private CallRequest $request;
     private int $called_at;
     /**
@@ -63,10 +66,26 @@ final class Call
     /**
      * @return $this
      */
-    public function addTag(string $name): self
+    public function addTag(string $tag): self
     {
-        $this->tags[] = $name;
+        $this->tags[] = $tag;
         $this->tags = array_unique($this->tags);
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function removeTag(string $tag): self
+    {
+        $tag_key = array_search($tag, $this->tags, true);
+
+        if ($tag_key === false) {
+            return $this;
+        }
+
+        array_splice($this->tags, $tag_key, 1);
 
         return $this;
     }

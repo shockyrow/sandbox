@@ -13,7 +13,7 @@ final class CallRequestHandler
 {
     public function handle(CallRequest $request): Call
     {
-        $call = new Call($request, time());
+        $call = new Call($request, time(), [Call::TAG_NEW]);
 
         $function = $request->getAct()->getFunction();
         $raw_arguments = $request->getArguments();
