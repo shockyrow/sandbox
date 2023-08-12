@@ -10,15 +10,21 @@ class SessionBasedCallListStorage implements CallListStorageInterface
 
     public function load(): CallList
     {
-        return $_SESSION[self::KEY] ?? new CallList();
+        if ($this->isSessionAvailable()) {
+            return $_SESSION[self::KEY] ?? new CallList();
+        }
+
+        return new CallList();
     }
 
     public function save(CallList $call_list): void
     {
-        $_SESSION[self::KEY] = $call_list;
+        if ($this->isSessionAvailable()) {
+            $_SESSION[self::KEY] = $call_list;
+        }
     }
 
-    public function isAvailable(): bool
+    private function isSessionAvailable(): bool
     {
         if (session_status() !== PHP_SESSION_ACTIVE) {
             session_start();

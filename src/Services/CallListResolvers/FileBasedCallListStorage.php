@@ -15,11 +15,13 @@ class FileBasedCallListStorage implements CallListStorageInterface
 
     public function load(): CallList
     {
-        $contents = file_get_contents($this->filename) ?: '';
-        $result = unserialize($contents);
+        if ($this->isFileAvailable()) {
+            $contents = file_get_contents($this->filename) ?: '';
+            $result = unserialize($contents);
 
-        if ($result instanceof CallList) {
-            return $result;
+            if ($result instanceof CallList) {
+                return $result;
+            }
         }
 
         return new CallList();
@@ -27,10 +29,15 @@ class FileBasedCallListStorage implements CallListStorageInterface
 
     public function save(CallList $call_list): void
     {
-        file_put_contents($this->filename, serialize($call_list));
+        if ($this->isFileAvailable()) {
+            file_put_contents(
+                $this->filename,
+                serialize($call_list) // Todo: this is not working because it cannot serialize reflections
+            );
+        }
     }
 
-    public function isAvailable(): bool
+    private function isFileAvailable(): bool
     {
         if (!file_exists($this->filename)) {
             file_put_contents($this->filename, '');
