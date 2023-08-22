@@ -8,7 +8,6 @@ use ReflectionException;
 use Shockyrow\Sandbox\Entities\Act;
 use Shockyrow\Sandbox\Entities\ActList;
 use Shockyrow\Sandbox\Entities\Call;
-use Shockyrow\Sandbox\Entities\CallList;
 use Shockyrow\Sandbox\Services\CallListResolvers\CallListStorageInterface;
 use Shockyrow\Sandbox\Services\CallRequestHandler;
 

@@ -13,7 +13,7 @@ final class Act
     private string $name;
     private ReflectionFunction $function;
 
-    public function __construct(string $name, ReflectionFunction $function)
+    private function __construct(string $name, ReflectionFunction $function)
     {
         $this->name = $name;
         $this->function = $function;
