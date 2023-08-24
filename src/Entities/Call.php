@@ -9,15 +9,15 @@ use Exception;
 
 final class Call
 {
-    public const TAG_NEW = 'new';
-    public const TAG_FAVORITE = 'favorite';
-
     private CallRequest $request;
     private int $called_at;
     /**
      * @param string[] $tags
      */
     private array $tags;
+    /**
+     * @var mixed|null
+     */
     private $value;
     private ?string $output;
     private ?Exception $exception;
@@ -91,7 +91,7 @@ final class Call
     }
 
     /**
-     * @return mixed
+     * @return mixed|null
      */
     public function getValue()
     {

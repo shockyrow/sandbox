@@ -8,6 +8,7 @@ use ReflectionException;
 use Shockyrow\Sandbox\Entities\Act;
 use Shockyrow\Sandbox\Entities\ActList;
 use Shockyrow\Sandbox\Entities\Call;
+use Shockyrow\Sandbox\Enums\CallTag;
 use Shockyrow\Sandbox\Services\CallListResolvers\CallListStorageInterface;
 use Shockyrow\Sandbox\Services\CallRequestHandler;
 
@@ -77,13 +78,13 @@ class App
         $call_list = $call_list_storage->load();
 
         foreach ($call_list->getAll() as $call) {
-            $call->removeTag(Call::TAG_NEW);
+            $call->removeTag(CallTag::NEW);
         }
 
         $call_request = $engine->getCallRequest($act_list);
 
         if ($call_request !== null) {
-            $call = $this->call_request_handler->handle($call_request);
+            $call = $this->call_request_handler->handle($act_list, $call_request);
             $call_list->add($call);
             $call_list_storage->save($call_list);
         }

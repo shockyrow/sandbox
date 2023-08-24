@@ -6,22 +6,46 @@ namespace Shockyrow\Sandbox\Services;
 
 use Error;
 use Exception;
+use Shockyrow\Sandbox\Entities\ActList;
 use Shockyrow\Sandbox\Entities\Call;
 use Shockyrow\Sandbox\Entities\CallRequest;
+use Shockyrow\Sandbox\Enums\CallTag;
+use Shockyrow\Sandbox\Security\DefaultSecurityChecker;
 
 final class CallRequestHandler
 {
-    public function handle(CallRequest $request): Call
-    {
-        $call = new Call($request, time(), [Call::TAG_NEW]);
+    private DefaultSecurityChecker $security_checker;
 
-        $function = $request->getAct()->getFunction();
-        $raw_arguments = $request->getArguments();
+    public function __construct(DefaultSecurityChecker $security_checker)
+    {
+        $this->security_checker = $security_checker;
+    }
+
+    public function handle(ActList $act_list, CallRequest $request): Call
+    {
+        $call = new Call($request, time(), [CallTag::NEW]);
+        $act = $act_list->getOneByName($request->getActName());
+
+        if ($act === null) {
+            return $call->setException(
+                new Exception('Act not found.')
+            );
+        }
+
+        if (!$this->security_checker->check($act->getSecurity(), $request->getSecurityValue())) {
+            return $call->setException(
+                new Exception('Security check failed')
+            );
+        }
 
         ob_start();
 
         try {
-            $call->setValue($function->invokeArgs($raw_arguments));
+            $call->setValue(
+                $act->getFunction()->invokeArgs(
+                    $request->getArguments()
+                )
+            );
         } catch (Exception $exception) {
             $call->setException($exception);
         } catch (Error $error) {
