@@ -7,12 +7,11 @@ namespace Shockyrow\Sandbox;
 use ReflectionException;
 use Shockyrow\Sandbox\Entities\Act;
 use Shockyrow\Sandbox\Entities\ActList;
-use Shockyrow\Sandbox\Entities\Call;
 use Shockyrow\Sandbox\Enums\CallTag;
 use Shockyrow\Sandbox\Services\CallListResolvers\CallListStorageInterface;
 use Shockyrow\Sandbox\Services\CallRequestHandler;
 
-class App
+final class App
 {
     private EngineInterface $default_engine;
     private CallListStorageInterface $default_call_list_storage;

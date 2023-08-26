@@ -1,10 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Shockyrow\Sandbox;
 
-use Shockyrow\Sandbox\Entities\ActList;
-use Shockyrow\Sandbox\Entities\CallList;
-use Shockyrow\Sandbox\Entities\CallRequest;
 use Shockyrow\Sandbox\Template\TemplateEngine;
 
 abstract class BaseEngine implements EngineInterface

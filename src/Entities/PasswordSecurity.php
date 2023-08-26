@@ -6,7 +6,7 @@ namespace Shockyrow\Sandbox\Entities;
 
 use Shockyrow\Sandbox\Enums\SecurityType;
 
-class PasswordSecurity extends SimpleSecurity
+final class PasswordSecurity extends SimpleSecurity
 {
     private string $password;
 

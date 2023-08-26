@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Shockyrow\Sandbox\Services\CallListResolvers;
 
 use Shockyrow\Sandbox\Entities\CallList;
 
-class SessionBasedCallListStorage implements CallListStorageInterface
+final class SessionBasedCallListStorage implements CallListStorageInterface
 {
     private const KEY = 'call_list';
 

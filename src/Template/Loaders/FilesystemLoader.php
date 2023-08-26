@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Shockyrow\Sandbox\Template\Loaders;
 
-class FilesystemLoader implements LoaderInterface
+final class FilesystemLoader implements LoaderInterface
 {
     private string $path;
 

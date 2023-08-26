@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Shockyrow\Sandbox\Services\CallListResolvers;
 
 use Shockyrow\Sandbox\Entities\CallList;
 
-class FileBasedCallListStorage implements CallListStorageInterface
+final class FileBasedCallListStorage implements CallListStorageInterface
 {
     private string $filename;
 
