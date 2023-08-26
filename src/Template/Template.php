@@ -26,13 +26,4 @@ final class Template
     {
         return $this->data;
     }
-
-    /**
-     * @return mixed|null
-     * @deprecated Find another way/place to do this since this is not healthy
-     */
-    public function get(string $key)
-    {
-        return $this->data[$key] ?? null;
-    }
 }
