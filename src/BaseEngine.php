@@ -15,8 +15,8 @@ abstract class BaseEngine implements EngineInterface
         $this->template_engine = $template_engine;
     }
 
-    public function getTemplateEngine(): TemplateEngine
+    protected function render(string $name, array $data): string
     {
-        return $this->template_engine;
+        return $this->template_engine->render($name, $data);
     }
 }
