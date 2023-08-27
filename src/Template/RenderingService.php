@@ -13,7 +13,7 @@ use Shockyrow\Sandbox\Template\Renderers\ChainRenderer;
 use Shockyrow\Sandbox\Template\Renderers\RendererInterface;
 use Shockyrow\Sandbox\Template\Renderers\VariableRenderer;
 
-final class TemplateEngine
+final class RenderingService
 {
     private LoaderInterface $loader;
     private RendererInterface $renderer;

@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace Shockyrow\Sandbox;
 
-use Shockyrow\Sandbox\Template\TemplateEngine;
+use Shockyrow\Sandbox\Template\RenderingService;
 
 abstract class BaseEngine implements EngineInterface
 {
-    private TemplateEngine $template_engine;
+    private RenderingService $rendering_service;
 
-    public function __construct(TemplateEngine $template_engine)
+    public function __construct(RenderingService $rendering_service)
     {
-        $this->template_engine = $template_engine;
+        $this->rendering_service = $rendering_service;
     }
 
     protected function render(string $name, array $data): string
     {
-        return $this->template_engine->render($name, $data);
+        return $this->rendering_service->render($name, $data);
     }
 }
