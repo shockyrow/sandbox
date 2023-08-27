@@ -39,7 +39,7 @@ final class DataManager
                     return $carry[$key] ?? $default;
                 }
 
-                return $carry;
+                return $default;
             },
             $this->data
         );

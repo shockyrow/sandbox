@@ -8,6 +8,11 @@
             "Shockyrow\\Sandbox\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Shockyrow\\Sandbox\\Tests\\": "tests/"
+        }
+    },
     "authors": [
         {
             "name": "Ibrokhim Shokirov",

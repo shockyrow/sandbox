@@ -1,5 +1,6 @@
 /.idea/
 /.vscode/
+/.phpunit.cache/
 /demo/
 /vendor/
 composer.phar
