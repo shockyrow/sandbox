@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Shockyrow\Sandbox\Template\Loaders;
 
-final class FilesystemLoader implements LoaderInterface
+class FilesystemLoader implements LoaderInterface
 {
     private string $path;
     /**
@@ -20,15 +20,40 @@ final class FilesystemLoader implements LoaderInterface
 
     public function load(string $name): string
     {
-        $content = $this->cache[$name] ?? (file_get_contents($this->getFilepath($name)) ?: '');
-        $this->cache[$name] = $content;
+        $contents = $this->loadCached($name);
 
-        return $content;
+        if ($contents !== null) {
+            return $contents;
+        }
+
+        $contents = '';
+        $filepath = $this->getFilepath($name);
+
+        if (file_exists($filepath)) {
+            $contents = file_get_contents($filepath) ?: '';
+        }
+
+        $this->cache[$name] = $contents;
+
+        return $contents;
     }
 
     public function exists(string $name): bool
     {
-        return $this->cache[$name] ?? file_exists($this->getFilepath($name));
+        if ($this->existsInCache($name)) {
+            return true;
+        }
+
+        return file_exists($this->getFilepath($name));
+    }
+
+    private function loadCached(string $name): ?string
+    {
+        return $this->cache[$name] ?? null;
+    }
+    private function existsInCache(string $name): bool
+    {
+        return $this->loadCached($name) !== null;
     }
 
     private function getFilepath(string $name): string

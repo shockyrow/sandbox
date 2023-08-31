@@ -26,24 +26,24 @@ final class ChainLoader implements LoaderInterface
 
     public function load(string $name): string
     {
-        $content = $this->loadCached($name);
+        $contents = $this->loadCached($name);
 
-        if ($content !== null) {
-            return $content;
+        if ($contents !== null) {
+            return $contents;
         }
 
-        $content = '';
+        $contents = '';
 
         foreach ($this->loaders as $loader) {
             if ($loader->exists($name)) {
-                $content = $loader->load($name);
+                $contents = $loader->load($name);
                 break;
             }
         }
 
-        $this->cache[$name] = $content;
+        $this->cache[$name] = $contents;
 
-        return $content;
+        return $contents;
     }
 
     public function exists(string $name): bool
