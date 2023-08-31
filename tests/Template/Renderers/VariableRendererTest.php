@@ -71,15 +71,16 @@ class VariableRendererTest extends TestCase
                 fn ($key) => $data[$key] ?? $key
             );
         $variable_renderer = new VariableRenderer($mocked_data_manager);
+        $rendered_template = $variable_renderer->render(
+            new Template(
+                new Source('', $template),
+                $data
+            )
+        );
 
         self::assertEquals(
             $expected_result,
-            $variable_renderer->render(
-                new Template(
-                    new Source('', $template),
-                    $data
-                )
-            )
+            $rendered_template->getSource()->getCode()
         );
     }
 }

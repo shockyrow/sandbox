@@ -48,9 +48,10 @@ final class RenderingService
     public function render(string $name, array $data): string
     {
         $code = $this->loader->load($name);
-
-        return $this->renderer->render(
+        $template = $this->renderer->render(
             new Template(new Source($name, $code), $data)
         );
+
+        return $template->getSource()->getCode();
     }
 }

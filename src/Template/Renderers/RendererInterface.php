@@ -8,5 +8,5 @@ use Shockyrow\Sandbox\Template\Template;
 
 interface RendererInterface
 {
-    public function render(Template $template): string;
+    public function render(Template $template): Template;
 }
