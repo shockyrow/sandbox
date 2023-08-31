@@ -9,13 +9,6 @@ use Shockyrow\Sandbox\Template\DataManager;
 
 final class DataManagerTest extends TestCase
 {
-    private DataManager $data_manager;
-
-    protected function setUp(): void
-    {
-        $this->data_manager = new DataManager();
-    }
-
     public static function provideTestGetReturnsDefault(): array
     {
         $random_default = time();
@@ -65,8 +58,9 @@ final class DataManagerTest extends TestCase
      */
     public function testGet($data, string $key, $default, $expected_result): void
     {
-        $this->data_manager->setData($data);
+        $data_manager = new DataManager();
+        $data_manager->setData($data);
 
-        self::assertEquals($expected_result, $this->data_manager->get($key, $default));
+        self::assertEquals($expected_result, $data_manager->get($key, $default));
     }
 }

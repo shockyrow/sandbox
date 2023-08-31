@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Shockyrow\Sandbox\Template;
 
-final class DataManager
+class DataManager
 {
     /**
      * @var mixed|null

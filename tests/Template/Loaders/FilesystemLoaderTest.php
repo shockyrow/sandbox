@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Shockyrow\Sandbox\Tests\Template\Loaders;
 
 use PHPUnit\Framework\TestCase;

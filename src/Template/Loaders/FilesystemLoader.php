@@ -51,6 +51,7 @@ class FilesystemLoader implements LoaderInterface
     {
         return $this->cache[$name] ?? null;
     }
+
     private function existsInCache(string $name): bool
     {
         return $this->loadCached($name) !== null;

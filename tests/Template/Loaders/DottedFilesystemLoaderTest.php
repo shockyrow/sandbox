@@ -45,7 +45,6 @@ final class DottedFilesystemLoaderTest extends TestCase
     /**
      * @dataProvider provideTestLoad
      * @param string[] $parts
-     * @return void
      */
     public function testLoad(array $parts): void
     {
@@ -67,7 +66,6 @@ final class DottedFilesystemLoaderTest extends TestCase
     /**
      * @dataProvider provideTestLoad
      * @param string[] $parts
-     * @return void
      */
     public function testExistsReturnsTrueIfFileExists(array $parts): void
     {
