@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Shockyrow\Sandbox\Tests\Template;
+namespace Shockyrow\Sandbox\Tests\Rendering;
 
 use PHPUnit\Framework\TestCase;
-use Shockyrow\Sandbox\Template\DataManager;
+use Shockyrow\Sandbox\Rendering\DataManager;
 
 final class DataManagerTest extends TestCase
 {

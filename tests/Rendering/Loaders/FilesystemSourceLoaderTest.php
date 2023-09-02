@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Shockyrow\Sandbox\Tests\Template\Loaders;
+namespace Shockyrow\Sandbox\Tests\Rendering\Loaders;
 
 use PHPUnit\Framework\TestCase;
-use Shockyrow\Sandbox\Template\Loaders\FilesystemLoader;
+use Shockyrow\Sandbox\Rendering\Entities\Source;
+use Shockyrow\Sandbox\Rendering\Loaders\FilesystemSourceLoader;
 
-final class FilesystemLoaderTest extends TestCase
+final class FilesystemSourceLoaderTest extends TestCase
 {
     private const TOTAL_FILES = 10;
     private const MISSING_FILE_NAME = 'missing_template';
@@ -22,12 +23,12 @@ final class FilesystemLoaderTest extends TestCase
      * @var string[]
      */
     private array $filenames;
-    private FilesystemLoader $loader;
+    private FilesystemSourceLoader $loader;
 
     protected function setUp(): void
     {
         $this->filenames = [];
-        $this->loader = new FilesystemLoader(__DIR__);
+        $this->loader = new FilesystemSourceLoader(__DIR__);
 
         foreach (self::DIRECTORIES as $directory) {
             mkdir($this->resolvePath($directory));
@@ -58,10 +59,16 @@ final class FilesystemLoaderTest extends TestCase
     public function testLoad(): void
     {
         foreach ($this->filenames as $filename) {
-            self::assertEquals(self::EXAMPLE_TEMPLATE, $this->loader->load($filename));
+            self::assertEquals(
+                new Source($filename, self::EXAMPLE_TEMPLATE),
+                $this->loader->load($filename)
+            );
         }
 
-        self::assertEquals('', $this->loader->load(self::MISSING_FILE_NAME));
+        self::assertEquals(
+            new Source(self::MISSING_FILE_NAME),
+            $this->loader->load(self::MISSING_FILE_NAME)
+        );
     }
 
     public function testExists(): void

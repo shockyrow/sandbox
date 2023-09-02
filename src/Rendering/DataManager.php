@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Shockyrow\Sandbox\Template;
+namespace Shockyrow\Sandbox\Rendering;
 
 class DataManager
 {

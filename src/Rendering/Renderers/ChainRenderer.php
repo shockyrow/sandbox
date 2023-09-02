@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Shockyrow\Sandbox\Template\Renderers;
+namespace Shockyrow\Sandbox\Rendering\Renderers;
 
-use Shockyrow\Sandbox\Template\Template;
+use Shockyrow\Sandbox\Rendering\Entities\Template;
 
 final class ChainRenderer implements RendererInterface
 {
@@ -23,12 +23,10 @@ final class ChainRenderer implements RendererInterface
 
     public function render(Template $template): Template
     {
-        $result = array_reduce(
+        return array_reduce(
             $this->renderers,
             fn (Template $template, RendererInterface $renderer): Template => $renderer->render($template),
             $template
         );
-
-        return $result->getSource()->getCode();
     }
 }

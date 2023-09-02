@@ -2,21 +2,23 @@
 
 declare(strict_types=1);
 
-namespace Shockyrow\Sandbox\Template\Loaders;
+namespace Shockyrow\Sandbox\Rendering\Loaders;
 
-final class ChainLoader implements LoaderInterface
+use Shockyrow\Sandbox\Rendering\Entities\Source;
+
+final class ChainSourceLoader implements SourceLoaderInterface
 {
     /**
-     * @var LoaderInterface[]
+     * @var SourceLoaderInterface[]
      */
     private array $loaders;
     /**
-     * @var string[]
+     * @var Source[]
      */
     private array $cache;
 
     /**
-     * @param LoaderInterface[] $loaders
+     * @param SourceLoaderInterface[] $loaders
      */
     public function __construct(array $loaders = [])
     {
@@ -24,26 +26,26 @@ final class ChainLoader implements LoaderInterface
         $this->cache = [];
     }
 
-    public function load(string $name): string
+    public function load(string $name): Source
     {
-        $contents = $this->loadCached($name);
+        $source = $this->loadCached($name);
 
-        if ($contents !== null) {
-            return $contents;
+        if ($source !== null) {
+            return $source;
         }
 
-        $contents = '';
+        $source = '';
 
         foreach ($this->loaders as $loader) {
             if ($loader->exists($name)) {
-                $contents = $loader->load($name);
+                $source = $loader->load($name);
                 break;
             }
         }
 
-        $this->cache[$name] = $contents;
+        $this->cache[$name] = $source;
 
-        return $contents;
+        return $source;
     }
 
     public function exists(string $name): bool
@@ -61,7 +63,7 @@ final class ChainLoader implements LoaderInterface
         return false;
     }
 
-    private function loadCached(string $name): ?string
+    private function loadCached(string $name): ?Source
     {
         return $this->cache[$name] ?? null;
     }

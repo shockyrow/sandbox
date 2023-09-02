@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Shockyrow\Sandbox\Tests\Template\Renderers;
+namespace Shockyrow\Sandbox\Tests\Rendering\Renderers;
 
 use PHPUnit\Framework\MockObject\Rule\InvokedAtLeastCount;
 use PHPUnit\Framework\TestCase;
-use Shockyrow\Sandbox\Template\DataManager;
-use Shockyrow\Sandbox\Template\Renderers\VariableRenderer;
-use Shockyrow\Sandbox\Template\Source;
-use Shockyrow\Sandbox\Template\Template;
+use Shockyrow\Sandbox\Rendering\DataManager;
+use Shockyrow\Sandbox\Rendering\Entities\Source;
+use Shockyrow\Sandbox\Rendering\Entities\Template;
+use Shockyrow\Sandbox\Rendering\Renderers\VariableRenderer;
 
 class VariableRendererTest extends TestCase
 {

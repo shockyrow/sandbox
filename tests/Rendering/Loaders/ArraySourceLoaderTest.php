@@ -2,24 +2,23 @@
 
 declare(strict_types=1);
 
-namespace Shockyrow\Sandbox\Tests\Template\Loaders;
+namespace Shockyrow\Sandbox\Tests\Rendering\Loaders;
 
 use PHPUnit\Framework\TestCase;
-use Shockyrow\Sandbox\Template\Loaders\ArrayLoader;
-use Shockyrow\Sandbox\Template\Loaders\LoaderInterface;
+use Shockyrow\Sandbox\Rendering\Entities\Source;
+use Shockyrow\Sandbox\Rendering\Loaders\ArraySourceLoader;
+use Shockyrow\Sandbox\Rendering\Loaders\SourceLoaderInterface;
 
-final class ArrayLoaderTest extends TestCase
+final class ArraySourceLoaderTest extends TestCase
 {
-    private const TEMPLATES = [
-        'ol' => '<ol></ol>',
-        'li' => '<li></li>',
-    ];
-
-    private LoaderInterface $loader;
+    private SourceLoaderInterface $loader;
 
     protected function setUp(): void
     {
-        $this->loader = new ArrayLoader(self::TEMPLATES);
+        $this->loader = new ArraySourceLoader([
+            new Source('ol', '<ol></ol>'),
+            new Source('li', '<li></li>'),
+        ]);
     }
 
     public static function provideTestLoad(): array
@@ -34,9 +33,12 @@ final class ArrayLoaderTest extends TestCase
     /**
      * @dataProvider provideTestLoad
      */
-    public function testLoad(string $name, string $expected_result): void
+    public function testLoad(string $name, string $code): void
     {
-        self::assertEquals($expected_result, $this->loader->load($name));
+        self::assertEquals(
+            new Source($name, $code),
+            $this->loader->load($name)
+        );
     }
 
     public static function provideTestExists(): array

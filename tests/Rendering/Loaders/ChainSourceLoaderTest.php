@@ -2,31 +2,34 @@
 
 declare(strict_types=1);
 
-namespace Shockyrow\Sandbox\Tests\Template\Loaders;
+namespace Shockyrow\Sandbox\Tests\Rendering\Loaders;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Shockyrow\Sandbox\Template\Loaders\ChainLoader;
-use Shockyrow\Sandbox\Template\Loaders\LoaderInterface;
+use Shockyrow\Sandbox\Rendering\Entities\Source;
+use Shockyrow\Sandbox\Rendering\Loaders\ChainSourceLoader;
+use Shockyrow\Sandbox\Rendering\Loaders\SourceLoaderInterface;
 
-class ChainLoaderTest extends TestCase
+class ChainSourceLoaderTest extends TestCase
 {
     private const TOTAL_LOADERS = 10;
     private const EXAMPLE_TEMPLATE = '<button></button>';
 
     /**
-     * @var MockObject[]|LoaderInterface[]
+     * @var MockObject[]|SourceLoaderInterface[]
      */
-    private $mocked_loaders;
-    private ChainLoader $loader;
+    private array $mocked_loaders;
+    private ChainSourceLoader $loader;
 
     protected function setUp(): void
     {
-        foreach (range(1, self::TOTAL_LOADERS) as $_) {
-            $this->mocked_loaders[] = $this->createMock(LoaderInterface::class);
+        $this->mocked_loaders = [];
+
+        foreach (range(1, self::TOTAL_LOADERS) as $ignored) {
+            $this->mocked_loaders[] = $this->createMock(SourceLoaderInterface::class);
         }
 
-        $this->loader = new ChainLoader($this->mocked_loaders);
+        $this->loader = new ChainSourceLoader($this->mocked_loaders);
     }
 
     public function testLoad(): void
@@ -45,13 +48,17 @@ class ChainLoaderTest extends TestCase
             ->method('exists')
             ->willReturn(true);
 
+        $source = new Source('', self::EXAMPLE_TEMPLATE);
 
         $last_loader
             ->expects($this->once())
             ->method('load')
-            ->willReturn(self::EXAMPLE_TEMPLATE);
+            ->willReturn($source);
 
-        self::assertEquals(self::EXAMPLE_TEMPLATE, $this->loader->load(''));
+        self::assertEquals(
+            $source,
+            $this->loader->load('')
+        );
     }
 
     public function testExists(): void

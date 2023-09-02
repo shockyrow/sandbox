@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Shockyrow\Sandbox\Template;
+namespace Shockyrow\Sandbox\Rendering\Entities;
 
 final class Source
 {
@@ -11,7 +11,7 @@ final class Source
 
     public function __construct(
         string $name,
-        string $code
+        string $code = ''
     ) {
         $this->name = $name;
         $this->code = $code;

@@ -2,13 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Shockyrow\Sandbox\Template\Loaders;
+namespace Shockyrow\Sandbox\Rendering\Loaders;
 
-class FilesystemLoader implements LoaderInterface
+use Shockyrow\Sandbox\Rendering\Entities\Source;
+
+class FilesystemSourceLoader implements SourceLoaderInterface
 {
     private string $path;
     /**
-     * @var string[]
+     * @var Source[]
      */
     private array $cache;
 
@@ -18,12 +20,12 @@ class FilesystemLoader implements LoaderInterface
         $this->cache = [];
     }
 
-    public function load(string $name): string
+    public function load(string $name): Source
     {
-        $contents = $this->loadCached($name);
+        $source = $this->loadCached($name);
 
-        if ($contents !== null) {
-            return $contents;
+        if ($source !== null) {
+            return $source;
         }
 
         $contents = '';
@@ -33,9 +35,10 @@ class FilesystemLoader implements LoaderInterface
             $contents = file_get_contents($filepath) ?: '';
         }
 
-        $this->cache[$name] = $contents;
+        $source = new Source($name, $contents);
+        $this->cache[$name] = $source;
 
-        return $contents;
+        return $source;
     }
 
     public function exists(string $name): bool
@@ -47,7 +50,7 @@ class FilesystemLoader implements LoaderInterface
         return file_exists($this->getFilepath($name));
     }
 
-    private function loadCached(string $name): ?string
+    private function loadCached(string $name): ?Source
     {
         return $this->cache[$name] ?? null;
     }

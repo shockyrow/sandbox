@@ -2,24 +2,26 @@
 
 declare(strict_types=1);
 
-namespace Shockyrow\Sandbox\Template\Loaders;
+namespace Shockyrow\Sandbox\Rendering\Loaders;
 
-final class DottedFilesystemLoader implements LoaderInterface
+use Shockyrow\Sandbox\Rendering\Entities\Source;
+
+final class DottedFilesystemSourceLoader implements SourceLoaderInterface
 {
     private const DEFAULT_FILE_EXTENSION = 'html';
 
-    private FilesystemLoader $filesystem_loader;
+    private FilesystemSourceLoader $filesystem_loader;
     private string $file_extension;
 
     public function __construct(
-        FilesystemLoader $filesystem_loader,
+        FilesystemSourceLoader $filesystem_loader,
         string $file_extension = self::DEFAULT_FILE_EXTENSION
     ) {
         $this->filesystem_loader = $filesystem_loader;
         $this->file_extension = $file_extension;
     }
 
-    public function load(string $name): string
+    public function load(string $name): Source
     {
         return $this->filesystem_loader->load(
             $this->getFilename($name)

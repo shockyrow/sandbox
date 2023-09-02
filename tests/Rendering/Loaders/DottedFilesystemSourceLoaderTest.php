@@ -2,43 +2,44 @@
 
 declare(strict_types=1);
 
-namespace Shockyrow\Sandbox\Tests\Template\Loaders;
+namespace Shockyrow\Sandbox\Tests\Rendering\Loaders;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Shockyrow\Sandbox\Template\Loaders\DottedFilesystemLoader;
-use Shockyrow\Sandbox\Template\Loaders\FilesystemLoader;
+use Shockyrow\Sandbox\Rendering\Entities\Source;
+use Shockyrow\Sandbox\Rendering\Loaders\DottedFilesystemSourceLoader;
+use Shockyrow\Sandbox\Rendering\Loaders\FilesystemSourceLoader;
 
-final class DottedFilesystemLoaderTest extends TestCase
+final class DottedFilesystemSourceLoaderTest extends TestCase
 {
     private const MISSING_FILE_NAME = 'missing_template';
     private const EXAMPLE_TEMPLATE = '<button></button>';
     private const EXAMPLE_EXTENSION = 'example';
 
     /**
-     * @var MockObject|FilesystemLoader
+     * @var MockObject|FilesystemSourceLoader
      */
-    private $mocked_filesystem_loader;
-    private DottedFilesystemLoader $loader;
+    private $mocked_filesystem_source_loader;
+    private DottedFilesystemSourceLoader $loader;
 
     protected function setUp(): void
     {
-        $this->mocked_filesystem_loader = $this->createMock(FilesystemLoader::class);
-        $this->loader = new DottedFilesystemLoader($this->mocked_filesystem_loader, self::EXAMPLE_EXTENSION);
+        $this->mocked_filesystem_source_loader = $this->createMock(
+            FilesystemSourceLoader::class
+        );
+
+        $this->loader = new DottedFilesystemSourceLoader(
+            $this->mocked_filesystem_source_loader,
+            self::EXAMPLE_EXTENSION
+        );
     }
 
     public static function provideTestLoad(): array
     {
         return [
-            [
-                ['template'],
-            ],
-            [
-                ['folder', 'template'],
-            ],
-            [
-                ['folder1', 'folder2', 'template'],
-            ],
+            [['template']],
+            [['folder', 'template']],
+            [['folder1', 'folder2', 'template']],
         ];
     }
 
@@ -48,18 +49,18 @@ final class DottedFilesystemLoaderTest extends TestCase
      */
     public function testLoad(array $parts): void
     {
+        $name = implode('.', $parts);
+
         $this
-            ->mocked_filesystem_loader
+            ->mocked_filesystem_source_loader
             ->expects($this->once())
             ->method('load')
             ->with(implode(DIRECTORY_SEPARATOR, $parts) . '.' . self::EXAMPLE_EXTENSION)
-            ->willReturn(self::EXAMPLE_TEMPLATE);
+            ->willReturn(new Source($name, self::EXAMPLE_TEMPLATE));
 
         self::assertEquals(
-            self::EXAMPLE_TEMPLATE,
-            $this->loader->load(
-                implode('.', $parts)
-            )
+            new Source($name, self::EXAMPLE_TEMPLATE),
+            $this->loader->load($name)
         );
     }
 
@@ -70,7 +71,7 @@ final class DottedFilesystemLoaderTest extends TestCase
     public function testExistsReturnsTrueIfFileExists(array $parts): void
     {
         $this
-            ->mocked_filesystem_loader
+            ->mocked_filesystem_source_loader
             ->expects($this->once())
             ->method('exists')
             ->with(implode(DIRECTORY_SEPARATOR, $parts) . '.' . self::EXAMPLE_EXTENSION)
@@ -84,7 +85,7 @@ final class DottedFilesystemLoaderTest extends TestCase
     public function testExistsReturnsFalseIfFileDoesNotExist(): void
     {
         $this
-            ->mocked_filesystem_loader
+            ->mocked_filesystem_source_loader
             ->expects($this->once())
             ->method('exists')
             ->willReturn(false);

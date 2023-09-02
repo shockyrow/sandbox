@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Shockyrow\Sandbox\Template\Renderers;
+namespace Shockyrow\Sandbox\Rendering\Renderers;
 
-use Shockyrow\Sandbox\Template\DataManager;
-use Shockyrow\Sandbox\Template\Source;
-use Shockyrow\Sandbox\Template\Template;
+use Shockyrow\Sandbox\Rendering\DataManager;
+use Shockyrow\Sandbox\Rendering\Entities\Source;
+use Shockyrow\Sandbox\Rendering\Entities\Template;
 
 final class VariableRenderer implements RendererInterface
 {
