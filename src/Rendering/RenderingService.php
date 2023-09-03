@@ -17,19 +17,19 @@ use Shockyrow\Sandbox\Rendering\Renderers\VariableRenderer;
 
 final class RenderingService
 {
-    private SourceLoaderInterface $loader;
+    private SourceLoaderInterface $source_loader;
     private RendererInterface $renderer;
 
     public function __construct(
-        SourceLoaderInterface $loader,
+        SourceLoaderInterface $source_loader,
         RendererInterface $renderer
     ) {
-        $this->loader = $loader;
+        $this->source_loader = $source_loader;
         $this->renderer = $renderer;
     }
 
     /**
-     * @param string[] $templates
+     * @param Source[] $templates
      */
     public static function create(string $path = '', array $templates = []): self
     {
@@ -49,9 +49,9 @@ final class RenderingService
 
     public function render(string $name, array $data): string
     {
-        $code = $this->loader->load($name);
+        $source = $this->source_loader->load($name);
         $template = $this->renderer->render(
-            new Template(new Source($name, $code), $data)
+            new Template($source, $data)
         );
 
         return $template->getSource()->getCode();

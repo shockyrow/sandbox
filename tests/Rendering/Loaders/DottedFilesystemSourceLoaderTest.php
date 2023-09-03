@@ -51,8 +51,7 @@ final class DottedFilesystemSourceLoaderTest extends TestCase
     {
         $name = implode('.', $parts);
 
-        $this
-            ->mocked_filesystem_source_loader
+        $this->mocked_filesystem_source_loader
             ->expects($this->once())
             ->method('load')
             ->with(implode(DIRECTORY_SEPARATOR, $parts) . '.' . self::EXAMPLE_EXTENSION)
@@ -70,8 +69,7 @@ final class DottedFilesystemSourceLoaderTest extends TestCase
      */
     public function testExistsReturnsTrueIfFileExists(array $parts): void
     {
-        $this
-            ->mocked_filesystem_source_loader
+        $this->mocked_filesystem_source_loader
             ->expects($this->once())
             ->method('exists')
             ->with(implode(DIRECTORY_SEPARATOR, $parts) . '.' . self::EXAMPLE_EXTENSION)
@@ -84,8 +82,7 @@ final class DottedFilesystemSourceLoaderTest extends TestCase
 
     public function testExistsReturnsFalseIfFileDoesNotExist(): void
     {
-        $this
-            ->mocked_filesystem_source_loader
+        $this->mocked_filesystem_source_loader
             ->expects($this->once())
             ->method('exists')
             ->willReturn(false);
