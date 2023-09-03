@@ -5,22 +5,33 @@ declare(strict_types=1);
 namespace Shockyrow\Sandbox\Tests\Security\Services;
 
 use PHPUnit\Framework\TestCase;
-use Shockyrow\Sandbox\Security\Services\CaptchaStorage;
+use Shockyrow\Sandbox\Security\Services\CaptchaManager;
 
 final class CaptchaStorageTest extends TestCase
 {
-    private CaptchaStorage $captcha_storage;
+    private const EXAMPLE_CAPTCHA = 'example_captcha';
+
+    private CaptchaManager $captcha_manager;
 
     protected function setUp(): void
     {
-        $this->captcha_storage = new CaptchaStorage();
+        $this->captcha_manager = new CaptchaManager(self::EXAMPLE_CAPTCHA);
     }
 
-    public function testRetrieve(): void
+    public function testGetCaptcha(): void
     {
         self::assertEquals(
-            'captcha',
-            $this->captcha_storage->retrieve()
+            self::EXAMPLE_CAPTCHA,
+            $this->captcha_manager->getCaptcha()
         );
+    }
+
+    public function testRefresh(): void
+    {
+        $captcha = $this->captcha_manager->getCaptcha();
+
+        $this->captcha_manager->refresh();
+
+        self::assertNotEquals($captcha, $this->captcha_manager->getCaptcha());
     }
 }

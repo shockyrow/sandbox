@@ -11,21 +11,21 @@ use Shockyrow\Sandbox\Security\Entities\PasswordSecurity;
 use Shockyrow\Sandbox\Security\Entities\SecurityInterface;
 use Shockyrow\Sandbox\Security\Entities\SimpleSecurity;
 use Shockyrow\Sandbox\Security\Enums\SecurityType;
-use Shockyrow\Sandbox\Security\Services\CaptchaStorage;
+use Shockyrow\Sandbox\Security\Services\CaptchaManager;
 
 final class SimpleSecurityCheckerTest extends TestCase
 {
     private const EXAMPLE_CAPTCHA = 'example_captcha';
 
     /**
-     * @var MockObject|CaptchaStorage
+     * @var MockObject|CaptchaManager
      */
     private $mocked_captcha_storage;
     private SimpleSecurityChecker $simple_security_checker;
 
     protected function setUp(): void
     {
-        $this->mocked_captcha_storage = $this->createMock(CaptchaStorage::class);
+        $this->mocked_captcha_storage = $this->createMock(CaptchaManager::class);
         $this->simple_security_checker = new SimpleSecurityChecker(
             $this->mocked_captcha_storage
         );
@@ -113,7 +113,7 @@ final class SimpleSecurityCheckerTest extends TestCase
         if ($security->getType() === SecurityType::CAPTCHA) {
             $this->mocked_captcha_storage
                 ->expects($this->once())
-                ->method('retrieve')
+                ->method('getCaptcha')
                 ->willReturn(self::EXAMPLE_CAPTCHA);
         }
 

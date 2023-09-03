@@ -7,13 +7,13 @@ namespace Shockyrow\Sandbox\Security\Checkers;
 use Shockyrow\Sandbox\Security\Entities\SecurityInterface;
 use Shockyrow\Sandbox\Security\Entities\SimpleSecurity;
 use Shockyrow\Sandbox\Security\Enums\SecurityType;
-use Shockyrow\Sandbox\Security\Services\CaptchaStorage;
+use Shockyrow\Sandbox\Security\Services\CaptchaManager;
 
 final class SimpleSecurityChecker implements SecurityCheckerInterface
 {
-    private CaptchaStorage $captcha_storage;
+    private CaptchaManager $captcha_storage;
 
-    public function __construct(CaptchaStorage $captcha_storage)
+    public function __construct(CaptchaManager $captcha_storage)
     {
         $this->captcha_storage = $captcha_storage;
     }
@@ -30,7 +30,7 @@ final class SimpleSecurityChecker implements SecurityCheckerInterface
             case SecurityType::CONSENT:
                 return in_array(strtolower($value), ['1', 'on', 'yes', 'true'], true);
             case SecurityType::CAPTCHA:
-                return $this->captcha_storage->retrieve() === $value;
+                return $this->captcha_storage->getCaptcha() === $value;
             default:
                 return false;
         }
