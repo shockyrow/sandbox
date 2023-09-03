@@ -11,11 +11,11 @@ use Shockyrow\Sandbox\Security\Services\CaptchaManager;
 
 final class SimpleSecurityChecker implements SecurityCheckerInterface
 {
-    private CaptchaManager $captcha_storage;
+    private CaptchaManager $captcha_manager;
 
     public function __construct(CaptchaManager $captcha_storage)
     {
-        $this->captcha_storage = $captcha_storage;
+        $this->captcha_manager = $captcha_storage;
     }
 
     public function check(SecurityInterface $security, string $value): bool
@@ -30,7 +30,7 @@ final class SimpleSecurityChecker implements SecurityCheckerInterface
             case SecurityType::CONSENT:
                 return in_array(strtolower($value), ['1', 'on', 'yes', 'true'], true);
             case SecurityType::CAPTCHA:
-                return $this->captcha_storage->getCaptcha() === $value;
+                return $this->captcha_manager->getCaptcha() === $value;
             default:
                 return false;
         }

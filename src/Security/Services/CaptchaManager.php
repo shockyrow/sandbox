@@ -11,18 +11,24 @@ class CaptchaManager
 
     private string $captcha;
 
-    public function __construct(?string $captcha = null)
+    public function __construct()
     {
-        if ($captcha !== null) {
-            $this->captcha = $captcha;
-        } else {
-            $this->refresh();
-        }
+        $this->refresh();
     }
 
     public function getCaptcha(): string
     {
         return $this->captcha;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setCaptcha(string $captcha): self
+    {
+        $this->captcha = $captcha;
+
+        return $this;
     }
 
     /**
