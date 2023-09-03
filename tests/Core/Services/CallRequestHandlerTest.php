@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Shockyrow\Sandbox\Tests\Core\Services;
 
+use Error;
 use Exception;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -66,6 +67,24 @@ final class CallRequestHandlerTest extends TestCase
                     ->setValue(self::EXAMPLE_VALUE)
                     ->setOutput(self::EXAMPLE_VALUE),
             ],
+            [
+                Act::create(self::EXAMPLE_ACT_NAME, function ($value) {
+                    throw new Exception($value);
+                }),
+                $call_request,
+                true,
+                (new Call($call_request, 0, [CallTag::NEW]))
+                    ->setException(new Exception(self::EXAMPLE_VALUE)),
+            ],
+            [
+                Act::create(self::EXAMPLE_ACT_NAME, function ($value) {
+                    throw new Error($value);
+                }),
+                $call_request,
+                true,
+                (new Call($call_request, 0, [CallTag::NEW]))
+                    ->setError(new Error(self::EXAMPLE_VALUE)),
+            ],
         ];
     }
 
@@ -90,13 +109,27 @@ final class CallRequestHandlerTest extends TestCase
         );
 
         self::assertEquals($call->hasError(), $resulting_call->hasError());
+
+        if ($call->hasError()) {
+            self::assertEquals(
+                $call->getError()->getMessage(),
+                $resulting_call->getError()->getMessage()
+            );
+        }
+
         self::assertEquals($call->hasException(), $resulting_call->hasException());
+
+        if ($call->hasException()) {
+            self::assertEquals(
+                $call->getException()->getMessage(),
+                $resulting_call->getException()->getMessage()
+            );
+        }
+
         self::assertEquals($call->hasOutput(), $resulting_call->hasOutput());
         self::assertEquals($call->getTags(), $resulting_call->getTags());
         self::assertEquals($call->getValue(), $resulting_call->getValue());
         self::assertEquals($call->getOutput(), $resulting_call->getOutput());
         self::assertEquals($call->getRequest(), $resulting_call->getRequest());
-        self::assertEquals($call->getError(), $resulting_call->getError());
-        self::assertEquals($call->getException(), $resulting_call->getException());
     }
 }
