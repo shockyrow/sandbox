@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Shockyrow\Sandbox\Rendering\Renderers;
 
-use Shockyrow\Sandbox\Rendering\DataManager;
 use Shockyrow\Sandbox\Rendering\Entities\Source;
 use Shockyrow\Sandbox\Rendering\Entities\Template;
+use Shockyrow\Sandbox\Rendering\Services\DataManager;
 
 final class VariableRenderer implements RendererInterface
 {

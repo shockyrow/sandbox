@@ -10,7 +10,7 @@ use Shockyrow\Sandbox\Rendering\Entities\Source;
 use Shockyrow\Sandbox\Rendering\Loaders\ChainSourceLoader;
 use Shockyrow\Sandbox\Rendering\Loaders\SourceLoaderInterface;
 
-class ChainSourceLoaderTest extends TestCase
+final class ChainSourceLoaderTest extends TestCase
 {
     private const TOTAL_LOADERS = 10;
     private const EXAMPLE_TEMPLATE = '<button></button>';

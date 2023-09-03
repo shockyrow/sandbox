@@ -11,7 +11,7 @@ use Shockyrow\Sandbox\Rendering\Entities\Template;
 use Shockyrow\Sandbox\Rendering\Renderers\ChainRenderer;
 use Shockyrow\Sandbox\Rendering\Renderers\RendererInterface;
 
-class ChainRendererTest extends TestCase
+final class ChainRendererTest extends TestCase
 {
     private const TOTAL_RENDERERS = 10;
     private const EXAMPLE_TEMPLATE = '<button></button>';

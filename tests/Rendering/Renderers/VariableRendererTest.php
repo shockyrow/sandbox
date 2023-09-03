@@ -6,12 +6,12 @@ namespace Shockyrow\Sandbox\Tests\Rendering\Renderers;
 
 use PHPUnit\Framework\MockObject\Rule\InvokedAtLeastCount;
 use PHPUnit\Framework\TestCase;
-use Shockyrow\Sandbox\Rendering\DataManager;
 use Shockyrow\Sandbox\Rendering\Entities\Source;
 use Shockyrow\Sandbox\Rendering\Entities\Template;
 use Shockyrow\Sandbox\Rendering\Renderers\VariableRenderer;
+use Shockyrow\Sandbox\Rendering\Services\DataManager;
 
-class VariableRendererTest extends TestCase
+final class VariableRendererTest extends TestCase
 {
     private const EXAMPLE_DATA_VALUE = 'example';
 
