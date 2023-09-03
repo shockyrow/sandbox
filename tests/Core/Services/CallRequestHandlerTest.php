@@ -115,6 +115,10 @@ final class CallRequestHandlerTest extends TestCase
                 $call->getError()->getMessage(),
                 $resulting_call->getError()->getMessage()
             );
+            self::assertEquals(
+                $call->getError()->getCode(),
+                $resulting_call->getError()->getCode()
+            );
         }
 
         self::assertEquals($call->hasException(), $resulting_call->hasException());
@@ -123,6 +127,10 @@ final class CallRequestHandlerTest extends TestCase
             self::assertEquals(
                 $call->getException()->getMessage(),
                 $resulting_call->getException()->getMessage()
+            );
+            self::assertEquals(
+                $call->getException()->getCode(),
+                $resulting_call->getException()->getCode()
             );
         }
 
