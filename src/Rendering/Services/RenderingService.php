@@ -12,6 +12,7 @@ use Shockyrow\Sandbox\Rendering\Loaders\DottedFilesystemSourceLoader;
 use Shockyrow\Sandbox\Rendering\Loaders\FilesystemSourceLoader;
 use Shockyrow\Sandbox\Rendering\Loaders\SourceLoaderInterface;
 use Shockyrow\Sandbox\Rendering\Renderers\ChainRenderer;
+use Shockyrow\Sandbox\Rendering\Renderers\LoopRenderer;
 use Shockyrow\Sandbox\Rendering\Renderers\RendererInterface;
 use Shockyrow\Sandbox\Rendering\Renderers\VariableRenderer;
 
@@ -34,6 +35,8 @@ final class RenderingService
     public static function create(string $path = '', array $templates = []): self
     {
         $filesystem_loader = new FilesystemSourceLoader($path);
+        $data_manager = new DataManager();
+        $variable_renderer = new VariableRenderer($data_manager);
 
         return new self(
             new ChainSourceLoader([
@@ -42,7 +45,8 @@ final class RenderingService
                 new ArraySourceLoader($templates),
             ]),
             new ChainRenderer([
-                new VariableRenderer(new DataManager()),
+                new LoopRenderer($data_manager, $variable_renderer),
+                $variable_renderer,
             ])
         );
     }

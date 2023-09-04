@@ -26,7 +26,7 @@ final class VariableRenderer implements RendererInterface
                 $template->getSource()->getName(),
                 (string)preg_replace_callback(
                     "/\{{2}\s*([\w.]+)\s*}{2}/",
-                    function (array $matches) use ($template): string {
+                    function (array $matches): string {
                         [, $key] = $matches;
                         return (string)$this->data_manager->get($key, $key);
                     },
