@@ -61,14 +61,10 @@ final class VariableRendererTest extends TestCase
     {
         $mocked_data_manager = $this->createMock(DataManager::class);
         $mocked_data_manager
-            ->expects($this->once())
-            ->method('setData')
-            ->with($data);
-        $mocked_data_manager
             ->expects(new InvokedAtLeastCount(count($data)))
             ->method('get')
             ->willReturnCallback(
-                fn ($key) => $data[$key] ?? $key
+                fn ($data, $key) => $data[$key] ?? $key
             );
         $variable_renderer = new VariableRenderer($mocked_data_manager);
         $rendered_template = $variable_renderer->render(

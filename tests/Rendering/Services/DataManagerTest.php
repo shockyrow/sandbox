@@ -59,8 +59,10 @@ final class DataManagerTest extends TestCase
     public function testGet($data, string $key, $default, $expected_result): void
     {
         $data_manager = new DataManager();
-        $data_manager->setData($data);
 
-        self::assertEquals($expected_result, $data_manager->get($key, $default));
+        self::assertEquals(
+            $expected_result,
+            $data_manager->get($data, $key, $default)
+        );
     }
 }

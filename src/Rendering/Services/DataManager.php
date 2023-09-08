@@ -7,30 +7,10 @@ namespace Shockyrow\Sandbox\Rendering\Services;
 class DataManager
 {
     /**
-     * @var mixed|null
-     */
-    private $data;
-
-    public function __construct()
-    {
-        $this->data = null;
-    }
-
-    /**
-     * @return $this
-     */
-    public function setData($data): self
-    {
-        $this->data = $data;
-
-        return $this;
-    }
-
-    /**
      * @param mixed|null $default
      * @return mixed|null
      */
-    public function get(string $key, $default = null)
+    public function get($data, string $key, $default = null)
     {
         return array_reduce(
             explode('.', $key),
@@ -41,7 +21,7 @@ class DataManager
 
                 return $default;
             },
-            $this->data
+            $data
         );
     }
 }
