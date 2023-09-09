@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Shockyrow\Sandbox\Engines;
 
-use Shockyrow\Sandbox\Rendering\Services\RenderingService;
+use Shockyrow\Sandbox\Core\Services\RenderingService;
 
 abstract class BaseEngine implements EngineInterface
 {
